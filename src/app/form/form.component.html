@@ -1,0 +1,59 @@
+<h2>FORM USER</h2>
+<form #userForm="ngForm" (ngSubmit)="onSubmit(userForm.value)" class="col-lg-6 container" action="#">
+	<div class="form-group">
+		<label>Name</label>
+        <input type="text" class="form-control" minlength="6" 
+        maxlength="10" name="name" #name="ngModel" required
+			ngModel />
+		<div *ngIf="name.errors &&(name.drity || name.touched)" class="alert alert-danger">
+			<div [hidden]="!name.errors.required">
+				Name is required
+			</div>
+			<div [hidden]="!name.errors.minlength">
+				Name must be least at 6 characters!
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label>Email</label>
+		<input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" #email="ngModel" type="text" class="form-control" name="email" ngModel />
+        <div *ngIf="email.errors &&(email.drity || email.touched)" class="alert alert-danger">
+            <div [hidden]="!email.errors.pattern">
+                Email wrong fromat!
+            </div>
+        </div>
+    </div>
+	<div class="form-group">
+		<label>Street</label>
+        <input minlength="6" maxlength="250" required type="text" 
+        class="form-control" name="street" ngModel #street="ngModel"/>
+        
+        <div *ngIf="street.errors &&(street.drity || street.touched)" class="alert alert-danger" >
+            <div [hidden]="!street.errors.required">
+				Name is required
+			</div>
+			<div [hidden]="!street.errors.minlength">
+				The street too short!
+			</div>
+        </div>
+    </div>
+    
+	<div class="form-group">
+		<label>City</label>
+        <select required  class="form-control" name="cityName" ngModel >
+            <option *ngFor="let city of listCity" [value]="city.id">{{city.name}}</option>
+        </select>
+        
+	</div>
+	<div class="form-group">
+		<label>Postal code</label>
+		<input type="text" class="form-control" pattern="^[1-9][0-9]{4}$" #postalCode="ngModel" name="postalCode" ngModel />
+		<div *ngIf="postalCode.errors &&(postalCode.drity || postalCode.touched)" class="alert alert-danger">
+			<div [hidden]="!postalCode.errors.pattern">
+				Postal code must be have 5 digits!
+			</div>
+			
+		</div>
+	</div>
+	<button type="submit" [disabled]="!userForm.valid" class="btn btn-primary">Submit</button> 
+</form>
